@@ -12,7 +12,7 @@ public class ArrayList implements ObjectOperations {
         arrayList=new Object[1];
         size=0;
     }
-    public ArrayList(int n){
+    public ArrayList(Object o,int n){
         arrayList=new Object[n];
         size=0;
     }
@@ -96,5 +96,51 @@ public class ArrayList implements ObjectOperations {
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if(size==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Override
+    public void clear() {
+        for(int i=0;i<size;i++){
+            arrayList[i]=null;
+        }
+        size=0;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        int i;
+        for(i=0;i<size;i++){
+            if(o.equals(arrayList[i])){
+                break;
+            }
+        }
+        if(i==size){
+            return -1;
+        }
+        return i;
+    }
+
+    @Override
+    public void replace(Object existingObject, Object updatedObject) {
+        int i;
+        for( i=0;i<size;i++){
+            if(existingObject.equals(arrayList[i])){
+                arrayList[i]=updatedObject;
+                logger.info("Object Updated");
+            }
+        }
+        if(i==size){
+            logger.info("Existing Object not available can't Update");
+        }
     }
 }

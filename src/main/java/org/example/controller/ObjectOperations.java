@@ -8,4 +8,8 @@ public interface ObjectOperations {
     public void search(Object o);
     public void display();
     public int size();
+    public boolean isEmpty();
+    public void clear();
+    public int indexOf(Object o);
+    public void replace(Object existingObject,Object updatedObject);
 }
