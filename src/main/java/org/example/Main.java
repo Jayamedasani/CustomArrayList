@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.exception.IndexOutOfBoundsException;
+import org.example.exception.ObjectNotFoundException;
 import org.example.implementation.ArrayList;
 import org.example.model.Employee;
 import org.example.model.Student;
@@ -7,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IndexOutOfBoundsException, ObjectNotFoundException {
         Logger logger= LoggerFactory.getLogger(Main.class);
         Student student=new Student();
         Employee employee=new Employee();
@@ -49,7 +51,7 @@ public class Main {
             logger.info("Integer List is not Empty");
         }
         integerList.search(20);
-        integerList.clear();
+        /*integerList.clear();*/
         integerList.display();
         int index=integerList.indexOf(20);
         logger.info("index of 20 is:"+index);
@@ -57,5 +59,6 @@ public class Main {
         logger.info("Jaya index is:"+jayaindex);
         studentList.replace(new Student(101,"Jaya","CSE","08-03-2001"),new Student(101,"Jayalakshmi","CSE","08-03-2001"));
         studentList.display();
+
     }
 }
