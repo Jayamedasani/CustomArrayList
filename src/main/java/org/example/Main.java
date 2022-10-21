@@ -8,6 +8,8 @@ import org.example.model.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.function.Consumer;
+
 public class Main {
     public static void main(String[] args) throws IndexOutOfBoundsException, ObjectNotFoundException {
         Logger logger= LoggerFactory.getLogger(Main.class);
@@ -38,7 +40,7 @@ public class Main {
         else {
             logger.info("Employee List is not Empty");
         }
-        ArrayList integerList=new ArrayList(10);
+        ArrayList integerList=new ArrayList();
         integerList.add(10);
         integerList.add(20);
         integerList.add(30);
@@ -57,8 +59,10 @@ public class Main {
         logger.info("index of 20 is:"+index);
         int jayaindex=studentList.indexOf(new Student(101,"Jaya","CSE","08-03-2001"));
         logger.info("Jaya index is:"+jayaindex);
-        studentList.replace(new Student(101,"Jaya","CSE","08-03-2001"),new Student(101,"Jayalakshmi","CSE","08-03-2001"));
+        /*studentList.replace(new Student(101,"Jaya","CSE","08-03-2001"),new Student(101,"Jayalakshmi","CSE","08-03-2001"));*/
         studentList.display();
-
+        integerList.writeListObject();
+        integerList.forEach( (Object o)-> logger.info("Object is"+o));
+        integerList.writeListObject();
     }
 }

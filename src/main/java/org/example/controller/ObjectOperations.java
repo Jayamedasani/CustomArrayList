@@ -2,9 +2,13 @@ package org.example.controller;
 
 import org.example.exception.IndexOutOfBoundsException;
 import org.example.exception.ObjectNotFoundException;
+import org.example.functionalinterface.ListDisplay;
 import org.example.implementation.ArrayList;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 public interface ObjectOperations {
     public void add(Object o);
@@ -21,5 +25,7 @@ public interface ObjectOperations {
     public boolean contains(Object o);
     public Object[] subList(int startIndex,int lastIndex) throws IndexOutOfBoundsException;
     public Object[] sort();
-    public Object forEach();
+    void forEach(ListDisplay<Object> action);
+
+    public void writeListObject();
 }

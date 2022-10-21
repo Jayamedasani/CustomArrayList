@@ -2,7 +2,7 @@ package org.example.model;
 
 import java.util.Objects;
 
-public class Student {
+public class Student implements Comparable<Student> {
     private int rollID;
     private String name,deptName,dob;
 
@@ -69,5 +69,10 @@ public class Student {
                 ", deptName='" + deptName + '\'' +
                 ", dob='" + dob + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return 0;
     }
 }

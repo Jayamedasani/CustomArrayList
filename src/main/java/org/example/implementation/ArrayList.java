@@ -1,23 +1,31 @@
 package org.example.implementation;
-
 import org.example.comparator.ObjectComparator;
 import org.example.controller.ObjectOperations;
 import org.example.exception.IndexOutOfBoundsException;
 import org.example.exception.ObjectNotFoundException;
+import org.example.functionalinterface.ListDisplay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Comparator;
 
 public class ArrayList implements ObjectOperations {
     private Logger logger= LoggerFactory.getLogger(ArrayList.class);
     private Object arrayList[];
-
     private int size;
     public ArrayList(Object o){
         arrayList=new Object[1];
         size=0;
     }
+
+    public ArrayList(){
+        arrayList=new Object[1];
+        size=0;
+    }
+
     public ArrayList(Object o,int n){
         arrayList=new Object[n];
         size=0;
@@ -29,17 +37,13 @@ public class ArrayList implements ObjectOperations {
         }
         arrayList[size++]=o;
     }
-
-    private void addSize() {
-        arrayList= Arrays.copyOf(arrayList,size+50);
-    }
-
     @Override
     public void delete(Object o) throws ObjectNotFoundException {
         int position=-1;
         for(int i=0;i<size;i++){
             if(arrayList[i].equals(o)){
                 position=i;
+                break;
             }
         }
         if(position==-1){
@@ -52,7 +56,6 @@ public class ArrayList implements ObjectOperations {
             size--;
         }
     }
-
     @Override
     public Object get(int index) throws IndexOutOfBoundsException {
         if(index<0 || index>=size){
@@ -61,7 +64,6 @@ public class ArrayList implements ObjectOperations {
             return arrayList[index];
         }
     }
-
     @Override
     public void update(int index, Object o) throws IndexOutOfBoundsException {
         if(index<0 || index>=size){
@@ -71,7 +73,6 @@ public class ArrayList implements ObjectOperations {
             arrayList[index]=o;
         }
     }
-
     @Override
     public void search(Object o) throws ObjectNotFoundException {
         int i;
@@ -85,7 +86,6 @@ public class ArrayList implements ObjectOperations {
             throw new ObjectNotFoundException("Object Not Found");
         }
     }
-
     @Override
     public void display() {
         if(size==0){
@@ -97,12 +97,10 @@ public class ArrayList implements ObjectOperations {
             }
         }
     }
-
     @Override
     public int size() {
         return size;
     }
-
     @Override
     public boolean isEmpty() {
         if(size==0){
@@ -112,7 +110,6 @@ public class ArrayList implements ObjectOperations {
             return false;
         }
     }
-
     @Override
     public void clear() {
         for(int i=0;i<size;i++){
@@ -120,7 +117,6 @@ public class ArrayList implements ObjectOperations {
         }
         size=0;
     }
-
     @Override
     public int indexOf(Object o) throws ObjectNotFoundException {
         int i;
@@ -134,7 +130,6 @@ public class ArrayList implements ObjectOperations {
         }
         return i;
     }
-
     @Override
     public void replace(Object existingObject, Object updatedObject) throws ObjectNotFoundException {
         int i;
@@ -148,7 +143,6 @@ public class ArrayList implements ObjectOperations {
             throw new ObjectNotFoundException("Object not found Can't replace");
         }
     }
-
     @Override
     public boolean contains(Object o) {
         for (int i=0;i<size;i++){
@@ -158,7 +152,6 @@ public class ArrayList implements ObjectOperations {
         }
         return false;
     }
-
     @Override
     public Object[] subList(int startIndex, int lastIndex) throws IndexOutOfBoundsException {
         if(startIndex<0 || lastIndex>=size){
@@ -174,26 +167,37 @@ public class ArrayList implements ObjectOperations {
             return subList;
         }
     }
-
     @Override
     public Object[] sort() {
         Arrays.sort(arrayList, (Comparator) new ObjectComparator());
         return arrayList;
     }
-
     @Override
-    public Object forEach() {
-        int i=0;
-        while(i<size){
-            try{
-                return arrayList[i];
-            }
-            finally {
-                i++;
-                while(i<size){}
-            }
+    public void forEach(ListDisplay<Object> action) {
+        logger.info("inside for each method");
+        for (int i=0;i<size;i++) {
+            action.display(arrayList[i]);
         }
-        return null;
+    }
+    @Override
+    public void writeListObject()  {
+        try {
+            FileOutputStream file=new FileOutputStream(new File("file.txt"));
+            Writer w = new BufferedWriter(new OutputStreamWriter(file, StandardCharsets.UTF_8));
+            for (int i=0;i<size;i++) {
+                w.write("Object at:"+(i+1)+" is:"+arrayList[i]);
+                ((BufferedWriter) w).newLine();
+            }
+            w.flush();
+            w.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    private void addSize() {
+        arrayList= Arrays.copyOf(arrayList,size+50);
+    }
 }
